@@ -1,7 +1,5 @@
 streamlit
 google-generativeai
-torch
-torchvision
+diffusers
+transformers
 Pillow
-requests
-diffusers  # Add this line
