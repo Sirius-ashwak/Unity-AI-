@@ -1,0 +1,7 @@
+streamlit
+google-generativeai
+torch
+torchvision
+Pillow
+requests
+diffusers  # Add this line
