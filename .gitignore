@@ -1,0 +1,10 @@
+# Exclude API keys and other sensitive information
+App.py
+
+# Python specific ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+.env
