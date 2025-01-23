@@ -4,9 +4,9 @@ import io
 import requests
 
 # Set up API URLs and keys
-GENAI_API_KEY = "AIzaSyCTz1hVNjRVC4r2cIvoCpBnC46D5LatE8w"
-IMAGE_API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
-IMAGE_HEADERS = {"Authorization": f"Bearer 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"}
+GGENAI_API_KEY = "AIzaSyCTz1hVNjRVC4r2cIvoCpBnC46D5LatE8w"
+IMAGE_API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev"
+IMAGE_HEADERS = {"Authorization": f"Bearer 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"}
 
 # Streamlit app title
 st.title("Unity: Your Personal Assistant")
