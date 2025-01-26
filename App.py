@@ -4,7 +4,7 @@ import io
 import requests
 
 # Set up API URLs and keys
-GGENAI_API_KEY = "AIzaSyCTz1hVNjRVC4r2cIvoCpBnC46D5LatE8w"
+GENAI_API_KEY = "AIzaSyCTz1hVNjRVC4r2cIvoCpBnC46D5LatE8w"
 IMAGE_API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev"
 IMAGE_HEADERS = {"Authorization": f"Bearer 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"}
 
