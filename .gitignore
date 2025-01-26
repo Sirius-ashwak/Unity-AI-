@@ -1,5 +1,5 @@
 # Exclude API keys and other sensitive information
-App.py
+
 
 # Python specific ignores
 __pycache__/
