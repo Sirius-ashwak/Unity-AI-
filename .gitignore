@@ -1,3 +1,5 @@
+.env  # Exclude API keys
+
 # Ignore Python cache files
 __pycache__/
 *.py[cod]
@@ -6,4 +8,3 @@ __pycache__/
 
 # Ignore virtual environments
 venv/
-.env  # Exclude API keys
