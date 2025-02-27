@@ -3,6 +3,7 @@ from PIL import Image
 import io
 import requests
 import os
+import google.generativeai as genai
 
 # Load environment variables locally (ignored in Render)
 if os.getenv("RENDER") is None:
@@ -22,28 +23,42 @@ if not GENAI_API_KEY or not HUGGINGFACE_API_KEY:
 IMAGE_API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev"
 IMAGE_HEADERS = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
 
-# Streamlit app title
+# Configure Gemini API
+genai.configure(api_key=GENAI_API_KEY)
+MODEL_NAME = "models/gemini-2.0-pro-exp-02-05"
+
+def generate_image(description):
+    """Fetch an AI-generated image based on the input description."""
+    response = requests.post(IMAGE_API_URL, headers=IMAGE_HEADERS, json={"inputs": description})
+    if response.status_code == 200:
+        return Image.open(io.BytesIO(response.content))
+    else:
+        st.error("Error generating image. Please try again.")
+        return None
+
+def generate_text_response(query):
+    """Fetch a text-based response from Gemini AI."""
+    try:
+        model = genai.GenerativeModel(MODEL_NAME)
+        response = model.generate_content(query)
+        return response.text
+    except Exception as e:
+        st.error(f"Error generating response: {e}")
+        return None
+
+# Streamlit app UI
 st.title("Unity: Your Personal Assistant")
 
-# Text input widget
 text_input = st.text_input("Enter your query or description:")
-
-# Create a container for the buttons
 col1, col2 = st.columns([1, 1])
 
 # Button for generating an image
 with col1:
     if st.button("Generate Image"):
         if text_input:
-            def query_image(payload):
-                response = requests.post(IMAGE_API_URL, headers=IMAGE_HEADERS, json=payload)
-                return response.content
-
-            image_bytes = query_image({"inputs": text_input})
-            image = Image.open(io.BytesIO(image_bytes))
-
-            # Display the generated image
-            st.image(image, caption='Generated Image', use_column_width=True)
+            image = generate_image(text_input)
+            if image:
+                st.image(image, caption='Generated Image', use_column_width=True)
         else:
             st.error("Please enter a description to generate an image.")
 
@@ -51,14 +66,9 @@ with col1:
 with col2:
     if st.button("Answer Me"):
         if text_input:
-            import google.generativeai as genai
-            genai.configure(api_key=GENAI_API_KEY)
-            model = genai.GenerativeModel('gemini-pro')
-            chat = model.start_chat(history=[])
-            response = chat.send_message(text_input)
-
-            # Display the response
-            st.subheader("Response:")
-            st.write(response.text)
+            response = generate_text_response(text_input)
+            if response:
+                st.subheader("Response:")
+                st.write(response)
         else:
             st.error("Please enter a query to get an answer.")
